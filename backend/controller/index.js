@@ -24,9 +24,16 @@ async function login(req, res) {
     if (!verifiedUser)
       return res.json({ message: "invalid credentiels password not matching" });
     const token = generateToken(user);
-        return res.status(200).json({message:"login successful   token=> ", token});
+    return res
+      .status(200)
+      .json({ message: "login successful   token=> ", token });
   } catch (error) {
-    res.status(500).json({message:"server error during  matching password",error:error.message})
+    res
+      .status(500)
+      .json({
+        message: "server error during  matching password",
+        error: error.message,
+      });
   }
 }
-module.exports = { signUp ,login};
+module.exports = { signUp, login };
