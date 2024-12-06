@@ -1,6 +1,13 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
+const isAdmin = (req, res) => {
+  if (req.body.role !== "admin") {
+    return res.status(401).json({ message: "Access denied: Admins only" });
+  }
+  next();
+};
+
 const jwtMiddleware = (req, res, next) => {
   const token = req.headers.authorization.split("")[1];
   if (!token)
@@ -17,5 +24,4 @@ const generateToken = (user) => {
   const payload = { id: user.id, name: user.firstName };
   return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1020h" });
 };
-module.exports = { jwtMiddleware, generateToken };
-  
+module.exports = { jwtMiddleware, generateToken, isAdmin };
